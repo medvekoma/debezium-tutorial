@@ -27,27 +27,47 @@ services:
       MYSQL_PASSWORD: mysqlpw
 
   connect:
-    image: debezium/connect:0.5
+    image: confluentinc/cp-kafka-connect:latest
     depends_on:
      - zookeeper
      - kafka
      - mysql
+     - schema_registry
     ports:
       - "8083:8083"
     environment:
-      GROUP_ID: 1
-      CONFIG_STORAGE_TOPIC: my_connect_configs
-      OFFSET_STORAGE_TOPIC: my_connect_offsets
-      BOOTSTRAP_SERVERS: kafka:9092
+      CONNECT_GROUP_ID: 1
+      CONNECT_CONFIG_STORAGE_TOPIC: my_connect_configs
+      CONNECT_OFFSET_STORAGE_TOPIC: my_connect_offsets
+      CONNECT_STATUS_STORAGE_TOPIC: my_connect_status # for confluent only
+      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL:   http://schema_registry:8081
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema_registry:8081
+      CONNECT_KEY_CONVERTER:   io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_INTERNAL_KEY_CONVERTER:   io.confluent.connect.avro.AvroConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect
 
   watcher:
     image: debezium/kafka:0.5
     depends_on:
-     - zookeeper
-     - kafka
-     - connect
-     - mysql
+      - zookeeper
+      - kafka
+      - connect
+      - mysql
     environment:
       ZOOKEEPER_CONNECT: zookeeper
       KAFKA_ADVERTISED_HOST_NAME: kafka
     command: watch-topic -a -k dbserver1.inventory.customers
+
+  schema_registry:
+    image: confluentinc/cp-schema-registry
+    depends_on:
+      - zookeeper
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: schema_registry
+      SCHEMA_REGISTRY_URL: schema_registry:8081
