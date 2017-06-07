@@ -2,6 +2,8 @@
 
 This tutorial is based on the [official debezium tutorial](http://debezium.io/docs/tutorial/).
 
+Switch to the `avro` branch for messages in Avro format.
+
 Steps to reproduce:
 
 ## Start the required services
