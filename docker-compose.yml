@@ -14,6 +14,7 @@ services:
       - zookeeper
     environment:
       ZOOKEEPER_CONNECT: zookeeper
+      ADVERTISED_HOST_NAME: kafka
     ports:
       - "9092:9092"
 
@@ -27,7 +28,7 @@ services:
       MYSQL_PASSWORD: mysqlpw
 
   connect:
-    image: debezium/connect:0.5
+    image: medvekoma/debezium-connect
     depends_on:
      - zookeeper
      - kafka
@@ -39,6 +40,14 @@ services:
       CONFIG_STORAGE_TOPIC: my_connect_configs
       OFFSET_STORAGE_TOPIC: my_connect_offsets
       BOOTSTRAP_SERVERS: kafka:9092
+      KEY_CONVERTER:   io.confluent.connect.avro.AvroConverter
+      VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+#      INTERNAL_KEY_CONVERTER:   io.confluent.connect.avro.AvroConverter
+#      INTERNAL_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL:   "http://schema-registry:8081"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+#      CONNECT_INTERNAL_KEY_CONVERTER_SCHEMA_REGISTRY_URL:   "http://schema-registry:8081"
+#      CONNECT_INTERNAL_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
 
   watcher:
     image: debezium/kafka:0.5
@@ -54,6 +63,8 @@ services:
 
   schema-registry:
     image: confluentinc/cp-schema-registry
+    ports:
+      - "8081:8081"
     depends_on:
       - zookeeper
     environment:

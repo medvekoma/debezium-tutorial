@@ -1,0 +1,14 @@
+total 2924
+drwxrwxrwx 2 root root       0 Jun  7 11:24 ./
+drwxrwxrwx 2 root root       0 Jun  7 09:45 ../
+-rwxrwxrwx 1 root root  436303 May  2 00:34 avro-1.7.7.jar*
+-rwxrwxrwx 1 root root   22199 May  2 00:30 common-config-3.2.1.jar*
+-rwxrwxrwx 1 root root   17644 May  2 00:30 common-utils-3.2.1.jar*
+-rwxrwxrwx 1 root root       0 Jun  7 11:24 files.txt*
+-rwxrwxrwx 1 root root  229999 May  2 00:34 jackson-core-2.5.4.jar*
+-rwxrwxrwx 1 root root  232248 May  2 00:34 jackson-core-asl-1.9.13.jar*
+-rwxrwxrwx 1 root root 1144035 May  2 00:34 jackson-databind-2.5.4.jar*
+-rwxrwxrwx 1 root root  780664 May  2 00:34 jackson-mapper-asl-1.9.13.jar*
+-rwxrwxrwx 1 root root   24774 May  2 00:34 kafka-avro-serializer-3.2.1.jar*
+-rwxrwxrwx 1 root root   37929 May  2 00:34 kafka-connect-avro-converter-3.2.1.jar*
+-rwxrwxrwx 1 root root   37910 May  2 00:34 kafka-schema-registry-client-3.2.1.jar*
