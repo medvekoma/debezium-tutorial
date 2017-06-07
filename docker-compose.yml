@@ -11,7 +11,7 @@ services:
   kafka:
     image: debezium/kafka:0.5
     depends_on:
-     - zookeeper
+      - zookeeper
     environment:
       ZOOKEEPER_CONNECT: zookeeper
     ports:
@@ -43,11 +43,19 @@ services:
   watcher:
     image: debezium/kafka:0.5
     depends_on:
-     - zookeeper
-     - kafka
-     - connect
-     - mysql
+      - zookeeper
+      - kafka
+      - connect
+      - mysql
     environment:
       ZOOKEEPER_CONNECT: zookeeper
       KAFKA_ADVERTISED_HOST_NAME: kafka
     command: watch-topic -a -k dbserver1.inventory.customers
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry
+    depends_on:
+      - zookeeper
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
