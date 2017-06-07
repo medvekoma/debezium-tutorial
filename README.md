@@ -2,6 +2,8 @@
 
 This tutorial is based on the [official debezium tutorial](http://debezium.io/docs/tutorial/).
 
+The version in the `avro` branch uses a modified kafka connector (source code in `debezium_connect` subfolder) that enables avro serialization.
+
 Steps to reproduce:
 
 ## Start the required services
@@ -14,8 +16,9 @@ This will start the following services:
  - zookeeper
  - kafka
  - mysql with example database
- - debezium connector
+ - debezium connector (custom build)
  - kafka watcher
+ - schema repository (confluent inc)
  
 ## Create a connector
 
@@ -40,6 +43,17 @@ You should see the table bootstrap messages
 ```
 
 This mysql command prompt can be used to make further changes in the database.
+
+```sql
+USE inventory;
+UPDATE customers SET first_name = "Anne Marie" WHERE id = 1004;
+```
+
+Inspect the logs again
+
+```bash
+docker logs debeziumtutorial_watcher_1
+```
 
 ## Remove all containers
 
