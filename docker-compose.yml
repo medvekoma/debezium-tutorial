@@ -28,6 +28,7 @@ services:
       MYSQL_PASSWORD: mysqlpw
 
   connect:
+#    image: debezium/connect:0.5
     image: medvekoma/debezium-connect
     depends_on:
      - zookeeper
