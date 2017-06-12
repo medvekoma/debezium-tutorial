@@ -1,2 +1,4 @@
 # keep linux line endings for linux shell scrips even on windows
 *.sh text eol=lf
+* text eol=lf
+
