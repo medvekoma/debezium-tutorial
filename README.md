@@ -46,7 +46,5 @@ This mysql command prompt can be used to make further changes in the database.
 ## Remove all containers
 
 ```bash
-docker stop mysqlterm
-docker rm mysqlterm
 docker-compose down
 ```
