@@ -15,7 +15,7 @@ curl -i -X POST \
       "database.server.id": "184054",
       "database.server.name": "dbserver1",
       "database.whitelist": "inventory",
-      "database.history.kafka.bootstrap.servers": "kafka:9092",
+      "database.history.kafka.bootstrap.servers": "broker:9092",
       "database.history.kafka.topic": "dbhistory.inventory"
     }
   }'
