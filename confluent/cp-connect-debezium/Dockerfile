@@ -1,6 +1,4 @@
-FROM confluentinc/cp-kafka-connect
-
-MAINTAINER flixbus
+FROM confluentinc/cp-kafka-connect:3.2.1
 
 ENV DEBEZIUM_VERSION=0.5.0 \
     MAVEN_CENTRAL="https://repo1.maven.org/maven2" \
