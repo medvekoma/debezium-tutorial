@@ -259,3 +259,18 @@ UPDATE customers SET nickname = "Sal" WHERE id = 1001;
    "ts_ms":1497358191831
 }
 ```
+
+## Delete row
+
+```sql
+DELETE FROM customers WHERE id = 1005;
+```
+
+```json
+// key
+{"id": 1005}
+```
+```json
+// value
+null
+```

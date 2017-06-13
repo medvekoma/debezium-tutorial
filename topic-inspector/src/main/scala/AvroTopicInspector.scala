@@ -29,21 +29,34 @@ object AvroTopicInspector extends App {
 
   directKafkaStream.foreachRDD(rdd => {
     rdd.foreach {
-      case (key: GenericData.Record, value: GenericData.Record) => {
+      case (key, value) => {
         println("-" * 30)
 
         println(s"key: $key")
-        println(s"key.class: ${key.getClass}")
-        println(s"key schema: ${key.getSchema}")
-        println(s"key schema fullName: ${key.getSchema.getFullName}")
+        printInfo(key)
 
         println(s"value: $value")
-        println(s"value.class: ${value.getClass}")
-        println(s"value schema: ${value.getSchema.toString}")
-        println(s"value schema fullName: ${value.getSchema.getFullName}")
+        printInfo(value)
       }
     }
   })
+
+  private def printInfo(record: Object) = {
+    val maybeClassName = Option(record).map(_.getClass).map(_.toString)
+    maybeClassName match {
+      case Some(className) =>
+        println(s"    class: $className")
+      case None =>
+    }
+
+    val schemaOption = Option(record.asInstanceOf[GenericData.Record]).map(_.getSchema)
+    schemaOption match {
+      case Some(schema) =>
+        println(s"    schema: ${schema}")
+        println(s"    schema fullName: ${schema.getFullName}")
+      case None =>
+    }
+  }
 
   scc.start()
   scc.awaitTermination()
