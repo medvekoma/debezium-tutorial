@@ -1,4 +1,4 @@
-name := "avro-topic-inspector"
+name := "topic-inspector"
 
 version := "1.0"
 

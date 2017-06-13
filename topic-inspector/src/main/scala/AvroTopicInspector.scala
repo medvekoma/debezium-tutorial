@@ -1,15 +1,15 @@
 import io.confluent.kafka.serializers.KafkaAvroDecoder
 import org.apache.avro.generic.GenericData
 import org.apache.spark.streaming.kafka.KafkaUtils
-import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 import scala.collection.immutable.HashMap
 
-object TopicInspector extends App {
+object AvroTopicInspector extends App {
 
   val conf = new SparkConf()
-    .setAppName("avro-inspector")
+    .setAppName("avro-topic-inspector")
     .setMaster("local[*]")
 
   val sc = new SparkContext(conf)
