@@ -40,6 +40,15 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema_registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
 
+  mysql:
+    image: debezium/example-mysql:0.5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: debezium
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpw
+
   connect:
     image: medvekoma/cp-connect-debezium
     hostname: connect
@@ -84,15 +93,6 @@ services:
 #      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
 #      PORT: 9021
 
-  mysql:
-    image: debezium/example-mysql:0.5
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: debezium
-      MYSQL_USER: mysqluser
-      MYSQL_PASSWORD: mysqlpw
-
   watcher:
     image: debezium/kafka:0.5
     depends_on:
@@ -104,4 +104,5 @@ services:
 #      BOOTSTRAP_SERVERS: 'broker:9092'
       ZOOKEEPER_CONNECT: 'zookeeper:2181'
 #      KAFKA_ADVERTISED_HOST_NAME: 'broker'
+    restart: unless-stopped
     command: watch-topic -a -k dbserver1.inventory.customers

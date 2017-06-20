@@ -1,14 +1,15 @@
 # debezium tutorial
 
-This tutorial is based on the [official debezium tutorial](http://debezium.io/docs/tutorial/).
-
-Switch to the `avro` branch for messages in Avro format.
+This tutorial is based on the [official debezium tutorial](http://debezium.io/docs/tutorial/) 
+and enhances it by using confluent's docker containers with a custom Kafka Connect container
+that embeds Debezium's MySQL connector.
 
 Steps to reproduce:
 
 ## Start the required services
 
 ```bash
+cd confluent
 docker-compose up -d
 ```
 
@@ -16,7 +17,7 @@ This will start the following services:
  - zookeeper
  - kafka
  - mysql with example database
- - debezium connector
+ - kafka connector with debezium
  - kafka watcher
  
 ## Create a connector
@@ -30,7 +31,7 @@ This command will create a connector to the inventory database.
 ## Inspect logs
 
 ```bash
-docker logs debeziumtutorial_watcher_1
+docker logs confluent_watcher_1
 ```
 
 You should see the table bootstrap messages
