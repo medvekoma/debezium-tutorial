@@ -4,7 +4,7 @@ curl -i -X POST \
   -H "Content-Type:application/json" \
   localhost:8083/connectors/ \
   -d '{
-    "name": "inventory-connector",
+    "name": "mysql-source-connector",
     "config": {
       "connector.class": "io.debezium.connector.mysql.MySqlConnector",
       "tasks.max": "1",
