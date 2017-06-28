@@ -22,7 +22,6 @@ cd confluent
 ### start the required services
 
 ```bash
-cd confluent
 docker-compose up -d
 ```
 
