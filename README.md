@@ -1,12 +1,25 @@
 # debezium tutorial
 
-This tutorial is based on the [official debezium tutorial](http://debezium.io/docs/tutorial/) 
-and enhances it by using confluent's docker containers with a custom Kafka Connect container
-that embeds Debezium's MySQL connector.
+This tutorial is a step-by-step guide for building a data pipeline
+from MySQL to S3, using the following components:
+ - Confluent Platform
+ - Debezium (MySQL Kafka connector)
+ - Docker and Docker Compose
+ 
+## content
 
-Steps to reproduce:
+* The `confluent` folder contains the docker-compose files and also shell scripts to start and monitor the pipeline
+* The `topic-inspector` folder contains a spark streaming application written in Scala for inspecting the Kafka topics.
 
-## Start the required services
+## steps to reproduce
+
+Go into the `confluent` folder.
+
+```bash
+cd confluent
+```
+
+### start the required services
 
 ```bash
 cd confluent
@@ -20,31 +33,67 @@ This will start the following services:
  - kafka connector with debezium
  - kafka watcher
  
-## Create a connector
+### create a source connector
+
+The script below will register and start the MySQL source connector,
+that will start streaming MySQL changes into Kafka topics
 
 ```bash
-./create-connector.sh
+./01-create-source-connector.sh
 ```
 
-This command will create a connector to the inventory database.
+Once the connector is started, it streams the bootstrap messages into Kafka.
 
-## Inspect logs
+### inspect topics
+
+There are more options to inspect the Kafka topics:
+
+#### 1. inspect the plain avro messages
 
 ```bash
 docker logs confluent_watcher_1
 ```
 
-You should see the table bootstrap messages
+#### 2. use kafka-avro-console-consumer
 
-## Start mysql terminal
+```bash
+./consume-avro-messages.sh <topic>
+```
 
+This command translates the avro messages to json. 
+The argument is the topic name and is optional.
+It defaults to dbserver1.inventory.customers. 
+To see the DDL messages, you can supply dbserver1
+
+#### 3. running the topic-inspector application
+
+The spark streaming app will also display the messages converted to json in 15 second microbatches.
+
+### start mysql terminal
+
+You can start a MySQL terminal and make changes to the database.
 ```bash
 ./mysql-terminal.sh
 ```
 
-This mysql command prompt can be used to make further changes in the database.
+```sql
+USE inventory;
+UPDATE customers SET first_name = "Annemarie" WHERE id = 1004;
+```
 
-## Remove all containers
+### register the sink connector
+
+First we need to prepare the sink connector by adding the AWS credentials, 
+then, similarly to the source connector.
+
+```bash
+./02-prepare-sink-connector.sh
+./03-create-sink-connector.sh
+```
+
+Once this is done, the avro files should appear at `s3://debezium-poc-sink`
+
+### Remove all containers
 
 ```bash
 docker-compose down
