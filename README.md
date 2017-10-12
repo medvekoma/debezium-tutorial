@@ -32,6 +32,18 @@ This will start the following services:
  - kafka connector with debezium
  - kafka watcher
  
+### add broker to hosts file
+
+Reason: this line in docker-compose.yml (Kafka configuration)  
+```KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker:9092'```  
+Solution: add this line to hosts file
+
+```
+127.0.0.1 broker
+```
+
+Details: https://stackoverflow.com/questions/39273878/spark-streaming-kafka-couldnt-find-leader-offsets-for-set  
+
 ### create a source connector
 
 The script below will register and start the MySQL source connector,
