@@ -2,7 +2,7 @@
 version: '2'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper
+    image: confluentinc/cp-zookeeper:3.2.1
     hostname: zookeeper
     ports:
       - "2181:2181"
@@ -11,7 +11,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
-    image: confluentinc/cp-kafka
+    image: confluentinc/cp-kafka:3.2.1
     hostname: broker
     depends_on:
       - zookeeper
@@ -29,7 +29,7 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema_registry:
-    image: confluentinc/cp-schema-registry
+    image: confluentinc/cp-schema-registry:3.2.1
     hostname: schema_registry
     depends_on:
       - zookeeper
@@ -50,7 +50,7 @@ services:
       MYSQL_PASSWORD: mysqlpw
 
   connect:
-    image: medvekoma/cp-connect-debezium
+    image: medvekoma/cp-connect-debezium:3.2.1
     hostname: connect
     depends_on:
       - zookeeper

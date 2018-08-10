@@ -45,16 +45,6 @@ Once the connector is started, it streams the bootstrap messages into Kafka.
 
 ### inspect topics
 
-There are more options to inspect the Kafka topics:
-
-#### 1. inspect the plain avro messages
-
-```bash
-docker logs confluent_watcher_1
-```
-
-#### 2. use kafka-avro-console-consumer
-
 ```bash
 ./consume-avro-messages.sh <topic>
 ```
@@ -63,10 +53,6 @@ This command translates the avro messages to json.
 The argument is the topic name and is optional.
 It defaults to dbserver1.inventory.customers. 
 To see the DDL messages, you can supply dbserver1
-
-#### 3. running the topic-inspector application
-
-The spark streaming app will also display the messages converted to json in 15 second microbatches.
 
 ### start mysql terminal
 
