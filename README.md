@@ -28,9 +28,9 @@ docker-compose up -d
 This will start the following services:
  - zookeeper
  - kafka
- - mysql with example database
- - kafka connector with debezium
- - kafka watcher
+ - schema registry
+ - mysql
+ - kafka connect with debezium
  
 ### create a source connector
 
